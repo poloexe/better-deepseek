@@ -14,13 +14,50 @@ export const SKIP_DIRS = new Set([
 ]);
 
 const TEXT_EXTS = new Set([
-  "js", "ts", "jsx", "tsx", "svelte", "vue", "html", "css", "scss",
-  "less", "json", "md", "txt", "py", "c", "cpp", "h", "hpp", "java",
-  "go", "rs", "rb", "php", "sh", "yml", "yaml", "toml", "ini", "csv",
-  "sql", "xml", "env", "cs", "csproj", "sln", "fs", "fsproj", "razor",
-  "swift", "kt", "dart", "gradle", "kts", "proto", "cmake", "cfg",
-  "conf", "pl", "pm", "r", "m", "mm", "lua", "zig", "tex", "bib",
-  "ipynb", "jsonl", "log", "nix",
+  // JS / web
+  "js", "mjs", "cjs", "ts", "mts", "cts", "jsx", "tsx", "svelte", "vue",
+  "astro", "mdx", "html", "htm", "css", "scss", "sass", "less", "styl",
+
+  // data / config
+  "json", "jsonc", "json5", "jsonl", "ndjson", "geojson", "csv", "tsv",
+  "xml", "xsl", "xslt", "yml", "yaml", "toml", "ini", "cfg", "conf",
+  "config", "properties", "env", "local", "example",
+  "gitignore", "gitattributes", "editorconfig", "npmrc", "nvmrc",
+  "babelrc", "eslintrc", "prettierrc", "stylelintrc", "htaccess", "htpasswd",
+
+  // docs
+  "md", "markdown", "txt", "rst", "adoc", "asciidoc", "org", "tex",
+  "bib", "man",
+
+  // shell / build / infra
+  "sh", "bash", "zsh", "fish", "ksh", "ps1", "psm1", "bat", "cmd",
+  "makefile", "mk", "mak", "cmake", "gradle", "kts", "bzl", "bazel",
+  "bazelrc", "workspace", "build", "sbt", "cabal", "dockerfile",
+  "containerfile", "justfile", "procfile", "vagrantfile", "gemfile",
+  "rakefile", "podfile", "cartfile", "brewfile", "tf", "tfvars", "hcl",
+  "nix",
+
+  // C / C++ / Objective-C / Apple / iOS tweaks
+  "c", "h", "cc", "cpp", "cxx", "c++", "hh", "hpp", "hxx", "h++",
+  "m", "mm", "pch", "x", "xm", "xi", "xmi", "xsm", "swift",
+  "plist", "strings", "entitlements", "pbxproj", "xcconfig",
+  "modulemap", "storyboard", "xib", "metal", "tbd", "xcscheme",
+  "xcworkspacedata", "xctestplan",
+
+  // JVM / Android / other languages
+  "java", "kt", "groovy", "scala", "sc", "clj", "cljs", "cljc", "edn",
+  "py", "pyi", "rb", "php", "pl", "pm", "go", "rs", "lua", "zig",
+  "dart", "jl", "cs", "csproj", "sln", "fs", "fsx", "fsproj", "vb",
+  "vbproj", "razor", "cshtml", "ex", "exs", "erl", "hrl", "pas", "pp",
+  "lisp", "el", "scm", "rkt", "sol", "move", "proto", "graphql", "gql",
+  "ipynb",
+
+  // low level
+  "s", "asm", "inc", "ld", "lds", "dts", "dtsi", "overlay", "v", "sv",
+  "vhd", "vhdl",
+
+  // misc
+  "log", "diff", "patch", "sql",
 ]);
 
 function openDb() {
