@@ -5,6 +5,35 @@
 
 import ignore from "ignore";
 
+const ALWAYS_SKIP_DIRS = new Set([
+  "node_modules",
+  ".git",
+  ".github",
+  ".theos",
+  "packages",
+  "__pycache__",
+  ".venv",
+  "venv",
+  "vendor",
+]);
+
+const BUILD_OUTPUT_DIRS = new Set([
+  "dist",
+  "build",
+  "out",
+  "target",
+  "obj",
+  "bin",
+  "coverage",
+  ".next",
+  ".nuxt",
+  ".svelte-kit",
+  ".cache",
+  ".nyc_output",
+  "dist-chrome",
+  "dist-firefox",
+]);
+
 export async function pickFolderSelection(options = {}) {
   const { processGitignore = false } = options;
 
@@ -225,24 +254,24 @@ function inferRootName(files) {
 }
 
 function shouldKeepPath(path) {
-  const segments = String(path || "").split("/");
-  for (const segment of segments) {
-    if (
-      segment === "node_modules" ||
-      segment === ".git" ||
-      segment === ".github" ||
-      segment === "dist" ||
-      segment === "build" ||
-      segment === ".idea" ||
-      segment === ".vscode" ||
-      segment === ".vs" ||
-      segment === "bin" ||
-      segment === "obj" ||
-      segment === "out" ||
-      segment === "target" ||
-      segment === "dist-chrome" ||
-      segment === "dist-firefox"
-    ) {
+  const segments = String(path || "").split("/").filter(Boolean);
+  if (!segments.length) {
+    return true;
+  }
+
+  for (let i = 0; i < segments.length; i++) {
+    const segment = segments[i];
+    if (ALWAYS_SKIP_DIRS.has(segment)) {
+      return false;
+    }
+  }
+
+  for (let i = 1; i <= 2; i++) {
+    const segment = segments[i];
+    if (!segment) {
+      continue;
+    }
+    if (BUILD_OUTPUT_DIRS.has(segment)) {
       return false;
     }
   }

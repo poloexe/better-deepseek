@@ -5,13 +5,36 @@ const STORE_NAME = "handles";
 const fileCache = new Map();
 const CACHE_TTL_MS = 5000;
 
-export const SKIP_DIRS = new Set([
-  "node_modules", ".git", ".github", "dist", "build",
-  ".idea", ".vscode", ".vs", "bin", "obj", "out", "target",
-  "dist-chrome", "dist-firefox", "__pycache__", ".next",
-  ".svelte-kit", ".cache", ".nyc_output", "coverage",
-  ".venv", "venv", "env", ".env", "vendor",
+const ALWAYS_SKIP_DIRS = new Set([
+  "node_modules",
+  ".git",
+  ".github",
+  ".theos",
+  "packages",
+  "__pycache__",
+  ".venv",
+  "venv",
+  "vendor",
 ]);
+
+const BUILD_OUTPUT_DIRS = new Set([
+  "dist",
+  "build",
+  "out",
+  "target",
+  "obj",
+  "bin",
+  "coverage",
+  ".next",
+  ".nuxt",
+  ".svelte-kit",
+  ".cache",
+  ".nyc_output",
+  "dist-chrome",
+  "dist-firefox",
+]);
+
+export const SKIP_DIRS = new Set(ALWAYS_SKIP_DIRS);
 
 const TEXT_EXTS = new Set([
   // JS / web
@@ -302,9 +325,15 @@ async function readDirectoryHandle(dirHandle, path, outFiles, outPaths) {
 }
 
 function shouldKeepPath(path) {
-  const segments = String(path || "").split("/");
-  for (const segment of segments) {
-    if (SKIP_DIRS.has(segment)) return false;
+  const segments = String(path || "").split("/").filter(Boolean);
+  for (let i = 0; i < segments.length; i++) {
+    const segment = segments[i];
+    if (ALWAYS_SKIP_DIRS.has(segment)) {
+      return false;
+    }
+    if (i <= 1 && BUILD_OUTPUT_DIRS.has(segment)) {
+      return false;
+    }
   }
   return true;
 }
